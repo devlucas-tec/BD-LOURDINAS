@@ -164,7 +164,8 @@ select * from instrutores;
 
 create table log_instrutores (
 	id int auto_increment primary key,
-	campo_alterado varchar(50) not null
+	campo_alterado varchar(50) not null,
+	data_alteracao timestamp default current_timestamp
 );
 
 create trigger trg_auditoria_instrutores
@@ -176,17 +177,17 @@ begin
 		insert into log_instrutores(campo_alterado)
 		values('Campo nome alterado');
 	elseif old.especialidade <> new.especialidade then
-		insert into log_instrutores(campo_alterado)
-		values('Campo especialidade alterada');
+		insert into log_instrutores(campo_alterado, data_alteracao)
+		values('Campo especialidade alterada', now());
 	end if;
 end
 
 update instrutores
-set nome = 'Andre Doria'
+set nome = 'Gerson Doria'
 where id = 2;
 
 update instrutores
-set especialidade = 'Levantamento de peso'
+set especialidade = 'PowerLifitind'
 where id = 2;
 
 select * from log_instrutores;
@@ -292,3 +293,6 @@ where id = 20;
  * */
 
 show triggers where `Table` = 'alunos';
+
+
+
